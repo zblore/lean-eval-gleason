@@ -1,5 +1,7 @@
 # lean-eval-gleason
 
+[![Comparator](https://github.com/zblore/lean-eval-gleason/actions/workflows/comparator.yml/badge.svg)](https://github.com/zblore/lean-eval-gleason/actions/workflows/comparator.yml)
+
 A solution to lean-eval's `gleason_theorem_finite`, Gleason's theorem in finite dimensions as stated
 by Kim Morrison in [leanprover/lean-eval](https://github.com/leanprover/lean-eval).
 
@@ -12,8 +14,11 @@ The proof comes from my [csd-lean4](https://github.com/zblore/csd-lean4) reposit
 (1985). `Submission/Gleason` holds those files, ported to lean-eval's pins. `Submission/Bridge.lean`
 takes matrices in an orthonormal basis to turn lean-eval's operator statement into the matrix one.
 
-Checks: `lake build Solution` succeeds with the fixed files unchanged, and `audit/Axioms.lean` shows
-only `propext`, `Classical.choice` and `Quot.sound`. Comparator runs on lean-eval's server.
+Checks: the [Comparator workflow](.github/workflows/comparator.yml) runs lean-eval's own checker on
+every push, with the same tool versions lean-eval uses. Comparator builds `Solution` in a sandbox and
+confirms it proves the statement in `Challenge.lean` using only `propext`, `Classical.choice` and
+`Quot.sound`. The Lean kernel and the independent nanoda kernel both accept it. lean-eval archived
+this problem on 20 Aug 2026, so its server no longer takes solutions.
 
 This isn't the first Lean proof of finite-dimensional Gleason.
 [Bobart0/gleason-theorem-lean](https://github.com/Bobart0/gleason-theorem-lean) proves the same case
