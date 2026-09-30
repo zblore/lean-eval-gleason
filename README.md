@@ -1,31 +1,24 @@
-# `gleason_theorem_finite`
+# lean-eval-gleason
 
-Gleason's theorem (finite-dimensional)
+A solution to lean-eval's `gleason_theorem_finite`, Gleason's theorem in finite dimensions as stated
+by Kim Morrison in [leanprover/lean-eval](https://github.com/leanprover/lean-eval).
 
-- Problem ID: `gleason_theorem_finite`
-- Group: `formalization-evaluation`
-- Status: `archived`
-- Visible: yes
-- Statement Revision: 1
-- Tags: none
-- Submitter: Kim Morrison
-- Notes: Gleason's theorem in finite dimensions: every frame function on the orthogonal projections of a complex Hilbert space of dimension at least 3 is given by P ↦ Tr(ρ P) for the unique density operator ρ. Stated using a bespoke `FrameFunction` structure (non-negative, additive on orthogonal projection pairs, normalized at the identity) and the standard Mathlib trace `LinearMap.trace`. Finite additivity on orthogonal pairs already implies countable additivity in finite dimensions, so the hypothesis matches Gleason's original σ-additive frame functions.
-- Source: A. M. Gleason, Measures on the closed subspaces of a Hilbert space, J. Math. Mech. 6 (1957), 885-893.
-- Informal solution: Gleason's original proof analyses regular frame functions on the unit sphere of R^3 by showing they are continuous and then quadratic, then promotes the resulting positive quadratic form on every 3-dimensional real subspace of H to a positive operator ρ on H whose diagonal in any orthonormal basis recovers the frame function, with Tr(ρ) = μ(I) = 1 ensuring ρ is a density operator.
+For a finite-dimensional complex Hilbert space of dimension at least 3, every frame function on the
+orthogonal projections is P ↦ Re Tr(ρP) for a unique positive operator ρ with trace 1. The statement
+in `Challenge.lean` and `Solution.lean` is lean-eval's, unchanged.
 
-Do not modify `Challenge.lean` or `Solution.lean`. Those files are part of the
-trusted benchmark and fixed by the repository.
+The proof comes from my [csd-lean4](https://github.com/zblore/csd-lean4) repository (commit
+`4b396fa3`), where I proved Gleason's theorem for matrices on ℂᴺ following Cooke, Keane and Moran
+(1985). `Submission/Gleason` holds those files, ported to lean-eval's pins. `Submission/Bridge.lean`
+takes matrices in an orthonormal basis to turn lean-eval's operator statement into the matrix one.
 
-Write your solution in `Submission.lean` and any additional local modules under
-`Submission/`.
+Checks: `lake build Solution` succeeds with the fixed files unchanged, and `audit/Axioms.lean` shows
+only `propext`, `Classical.choice` and `Quot.sound`. Comparator runs on lean-eval's server.
 
-Participants may use declarations from the existing Mathlib imports. Broadening
-the import header (especially to `import Mathlib`) can change elaboration of the
-fixed statement; any added import must leave `lake build Solution` green. Helper
-code not available through compatible imports must be inlined into the workspace.
+This isn't the first Lean proof of finite-dimensional Gleason.
+[Bobart0/gleason-theorem-lean](https://github.com/Bobart0/gleason-theorem-lean) proves the same case
+by the same route, and [markkasaurus/gleason-theorem-lean](https://github.com/markkasaurus/gleason-theorem-lean)
+proves the separable case.
 
-Multi-file submissions are allowed through `Submission.lean` and additional local
-modules under `Submission/`.
-
-`lake test` runs comparator for this problem. The command expects a comparator
-binary in `PATH`, or in the `COMPARATOR_BIN` environment variable.
+I drafted the Lean with Claude Code. Fable 5.1 and Astra reviewed the Gleason proof in csd-lean4
+before I carved it out.
